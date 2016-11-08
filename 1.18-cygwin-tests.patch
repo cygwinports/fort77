@@ -1,0 +1,31 @@
+Default output on PE is a.exe, not a.out
+
+--- origsrc/fort77-1.18/tests/test.pl	1996-11-06 06:40:15.000000000 -0600
++++ src/fort77-1.18/tests/test.pl	2016-04-01 15:12:13.271079900 -0500
+@@ -11,13 +11,13 @@ $test = [
+     [ "./fort77 -c foo.f",                 qw(foo.o) ],
+     [ "./fort77 -c bar.F",                 qw(bar.o) ],
+     [ "./fort77 -c -o gargle.o foo.f",	   qw(gargle.o) ],
+-    [ "./fort77 foo.f",			   qw(a.out) ],
+-    [ "./fort77 baz/bazfoo.f",		   qw(a.out) ],
++    [ "./fort77 foo.f",			   qw(a.exe) ],
++    [ "./fort77 baz/bazfoo.f",		   qw(a.exe) ],
+     [ "./fort77 -c baz/bazfoo.f",	   qw(bazfoo.o) ],
+     [ "./fort77 -o bar.o -c baz/bazfoo.f", qw(bar.o) ],
+     [ "./fort77 -o tscht foo.f",	   qw(tscht) ],
+-    [ "./fort77 -k foo.f",		   qw(a.out foo.c) ],
+-    [ "./fort77 -g -k foo.f",		   qw(foo.c a.out) ],
++    [ "./fort77 -k foo.f",		   qw(a.exe foo.c) ],
++    [ "./fort77 -g -k foo.f",		   qw(foo.c a.exe) ],
+     [ "./fort77 -c -f long.f",		   qw(long.o) ],
+     [ "./fort77 mainmiss.f"				],
+     [ "./fort77 -c foo.f && ./fort77 -c mainmiss.f && ./fort77 -o foo foo.o mainmiss.o",
+@@ -33,7 +33,7 @@ $test = [
+ #
+ 
+ @unexpected = qw(gargle.c baz/bazfoo.c baz/bazfoo.o mainmiss.o mainmiss.c
+-		 synerr.o synerr.c baz/a.out bar.c);
++		 synerr.o synerr.c baz/a.exe bar.c);
+ 
+ foreach $ref (@$test) {
+     foreach $file(@$ref[1..@$ref-1]) {

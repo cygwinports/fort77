@@ -1,0 +1,35 @@
+NAME="fort77"
+VERSION=1.18
+RELEASE=1
+CATEGORY="Devel"
+SUMMARY="Fortran 77 compiler frontend"
+DESCRIPTION="Fort77 is a Perl driver script for the f2c Fortran to C converter,
+which makes it possible to use it like a compiler.  It's a replacement for the
+f77 script, and includes support for debugging."
+HOMEPAGE="http://www.ibiblio.org/pub/Linux/devel/lang/fortran"
+SRC_URI="${HOMEPAGE}/fort77-${VERSION}.tar.gz"
+PATCH_URI="
+	1.18-cygwin-tests.patch
+	1.18-debian.patch
+"
+
+ARCH=noarch
+
+REQUIRES="f2c gcc-core"
+
+src_compile() { :; }
+
+src_test() {
+	cd ${S}
+	make test
+}
+
+src_install() {
+	cd ${S}
+	dobin fort77
+	doman fort77.1
+	dosym fort77 /usr/bin/f77
+	dosym fort77.1 /usr/share/man/man1/f77.1
+}
+
+DOCS="*.lsm"

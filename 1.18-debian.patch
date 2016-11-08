@@ -1,0 +1,30 @@
+Port of relevant parts of Debian fort77_1.15-11.diff
+
+--- origsrc/fort77-1.18/fort77	1999-04-19 07:19:36.000000000 -0500
++++ src/fort77-1.18/fort77	2016-11-08 03:22:26.864280900 -0600
+@@ -222,7 +222,7 @@ while ($_ = $ARGV[0]) {
+     $basefile = "";
+     $debugcmd = "";
+ 
+-    if (/\.[fF]$/) {
++    if (/\.[fF]$/ || /\.[fF][oO][rR]$/) {
+ 	$ffile = $_;
+ 	$basefile = $ffile;
+     }
+@@ -333,7 +333,7 @@ while ($_ = $ARGV[0]) {
+ 	    push(@command,'-o',$output,$compile_only);
+ 	}
+ 	elsif ((!$compile_only) || ($compile_only eq '-c')) {
+-	    $lfile = ($basefile =~ /([^\/]*\.).$/)[0] . "o";
++	    $lfile = ($basefile =~ /([^\/\.]*\.).*$/)[0] . "o";
+ 	    push(@command, '-c', '-o', $lfile);
+ 	}
+ 	elsif ($compile_only eq '-S') {
+@@ -345,6 +345,7 @@ while ($_ = $ARGV[0]) {
+ 	$retcode = &mysystem(@command)/256;
+ 
+ 	if ($retcode) {
++	    $? = $retcode;
+ 	    die "$0: aborting compilation\n";
+ 	}
+ 	if ($ffile && !$keep_c) {
